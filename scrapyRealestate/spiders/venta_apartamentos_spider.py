@@ -24,6 +24,17 @@ class QuotesSpider(scrapy.Spider):
     #     for url in urls:
     #         yield scrapy.Request(url=url, callback=self.parse)
     
+    #info = response.css('div.ad-info')
+    #categoria: info.xpath('//span[contains(@class, "info-name") and contains(text(), "Categoria:")]/following-sibling::span/text()').get()
+    #localizacion: info.xpath('//span[contains(@class, "info-name") and contains(text(), "Localización:")]/following-sibling::span/text()').get()
+
+    #details = response.css('div.ad-details')
+    #recamaras = details.xpath('//span[contains(@class, "info-name") and contains(text(), "Recámaras:")]/following-sibling::span/text()').get()
+    #banos = details.xpath('//span[contains(@class, "info-name") and contains(text(), "Baños:")]/following-sibling::span/text()').get()
+    #metros = details.xpath('//span[contains(@class, "info-name") and re:test(text(),"^M² de construcción:$")]/following-sibling::span/text()').get()
+
+    #propietario: response.xpath('//div[contains(@class,"user-info")]/a/span[contains(@class,"user-name")]/text()').get()
+    #telefono: response.xpath('//div[contains(@class,"contact-phone")]/span[contains(@class,"phone")]/text()').get()
     def parse(self, response):
         print (self.page_number)
         print ("----------")
