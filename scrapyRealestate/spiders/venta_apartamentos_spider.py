@@ -12,6 +12,11 @@ class QuotesSpider(scrapy.Spider):
     def start_requests(self):
         print(self.start_urls)
         self.page_number = 1
+        row = ["propietario", "telefono", "categoria", "localizacion", "precio", "metros", "recamaras", "banos", "url"]
+        with open(filename, mode='a', encoding='utf-8') as csvFile:
+            writer = csv.writer(csvFile)
+            writer.writerow(row)
+        csvFile.close()           
         yield scrapy.Request(url=self.start_urls, callback=self.parse)
     # def start_requests(self):
     #     urls = [
