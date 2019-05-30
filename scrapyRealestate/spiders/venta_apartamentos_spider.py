@@ -6,14 +6,16 @@ URL = "/panama-es/bienes-raices-venta-de-propiedades-apartamentos.%d"
 class QuotesSpider(scrapy.Spider):
     name = "venta_apartamentos"
     start_urls = (BASE_URL + URL) % 1
+    filename = 'venta-de-apartamentos.csv'
     
     # def __init__(self):
     #     self.page_number = 1  
     def start_requests(self):
         print(self.start_urls)
         self.page_number = 1
+        
         row = ["propietario", "telefono", "categoria", "localizacion", "precio", "metros", "recamaras", "banos", "url"]
-        with open(filename, mode='a', encoding='utf-8') as csvFile:
+        with open(self.filename, mode='a', encoding='utf-8') as csvFile:
             writer = csv.writer(csvFile)
             writer.writerow(row)
         csvFile.close()           
@@ -99,21 +101,23 @@ class QuotesSpider(scrapy.Spider):
 
     #propietario: response.xpath('//div[contains(@class,"user-info")]/a/span[contains(@class,"user-name")]/text()').get()
     #telefono: response.xpath('//div[contains(@class,"contact-phone")]/span[contains(@class,"phone")]/text()').get()
-        info = response.css('div.ad-info')
-        categoria = info.xpath('//span[contains(@class, "info-name") and contains(text(), "Categoria:")]/following-sibling::span/text()').get()
-        localizacion = info.xpath('//span[contains(@class, "info-name") and contains(text(), "Localización:")]/following-sibling::span/text()').get()
-        precio = info.xpath('//span[contains(@class, "info-name") and contains(text(), "Precio:")]/following-sibling::span/text()').get()
-        details = response.css('div.ad-details')
-        recamaras = details.xpath('//span[contains(@class, "info-name") and contains(text(), "Recámaras:")]/following-sibling::span/text()').get()
-        banos = details.xpath('//span[contains(@class, "info-name") and contains(text(), "Baños:")]/following-sibling::span/text()').get()
-        metros = details.xpath('//span[contains(@class, "info-name") and re:test(text(),"^M² de construcción:$")]/following-sibling::span/text()').get()
-
-        propietario= response.xpath('//div[contains(@class,"user-info")]/a/span[contains(@class,"user-name")]/text()').get()
-        telefono= response.xpath('//div[contains(@class,"contact-phone")]/span[contains(@class,"phone")]/text()').get()        
-        filename = 'venta-de-apartamentos.csv'
-        row = [propietario, telefono, categoria, localizacion, precio, metros, recamaras, banos, response.url]
-        print(row)
-        with open(filename, mode='a', encoding='utf-8') as csvFile:
-            writer = csv.writer(csvFile)
-            writer.writerow(row)
-        csvFile.close()        
+        tipo = response.xpath('//div[contains(@class,"user-info")]/span[contains(@class,"text-attr")]/text()').get()
+        if tipo == "Propietario":
+            info = response.css('div.ad-info')
+            categoria = info.xpath('//span[contains(@class, "info-name") and contains(text(), "Categoria:")]/following-sibling::span/text()').get()
+            localizacion = info.xpath('//span[contains(@class, "info-name") and contains(text(), "Localización:")]/following-sibling::span/text()').get()
+            precio = info.xpath('//span[contains(@class, "info-name") and contains(text(), "Precio:")]/following-sibling::span/text()').get()
+            details = response.css('div.ad-details')
+            recamaras = details.xpath('//span[contains(@class, "info-name") and contains(text(), "Recámaras:")]/following-sibling::span/text()').get()
+            banos = details.xpath('//span[contains(@class, "info-name") and contains(text(), "Baños:")]/following-sibling::span/text()').get()
+            metros = details.xpath('//span[contains(@class, "info-name") and re:test(text(),"^M² de construcción:$")]/following-sibling::span/text()').get()
+            propietario = response.xpath('//div[contains(@class,"user-info")]/span[contains(@class,"user-name")]/text()').get()
+            if not propietario:
+                propietario = response.xpath('//div[contains(@class,"user-info")]/a/span[contains(@class,"user-name")]/text()').get()
+            telefono= response.xpath('//div[contains(@class,"contact-phone")]/span[contains(@class,"phone")]/text()').get()        
+            row = [propietario, telefono, categoria, localizacion, precio, metros, recamaras, banos, response.url]
+            print(row)
+            with open(self.filename, mode='a', encoding='utf-8') as csvFile:
+                writer = csv.writer(csvFile)
+                writer.writerow(row)
+            csvFile.close()        
