@@ -1,0 +1,16 @@
+setup.py
+project.egg-info/PKG-INFO
+project.egg-info/SOURCES.txt
+project.egg-info/dependency_links.txt
+project.egg-info/entry_points.txt
+project.egg-info/top_level.txt
+scrapyRealestate/__init__.py
+scrapyRealestate/items.py
+scrapyRealestate/middlewares.py
+scrapyRealestate/pipelines.py
+scrapyRealestate/settings.py
+scrapyRealestate/spiders/__init__.py
+scrapyRealestate/spiders/alquiler-apartamentos-spider.py
+scrapyRealestate/spiders/alquiler-casas-spider.py
+scrapyRealestate/spiders/venta-casas-spider.py
+scrapyRealestate/spiders/venta_apartamentos_spider.py

@@ -1,10 +1,10 @@
 import scrapy
 import csv
 BASE_URL = "https://www.encuentra24.com"
-URL = "/panama-es/bienes-raices-venta-de-propiedades-apartamentos.%d"
+URL = "/panama-es/bienes-raices-alquiler-casas.%d"
 
 class QuotesSpider(scrapy.Spider):
-    name = "venta_apartamentos"
+    name = "alquiler_casas"
     start_urls = (BASE_URL + URL) % 1
     filename = 'venta-de-apartamentos.csv'
     
